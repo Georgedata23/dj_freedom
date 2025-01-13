@@ -10,11 +10,16 @@ class TextImg:
         self.text = text
         self.id = id_doc
 
-
+data_df = [
+    {'id': 1, 'image': '1.webp'},
+    {'id': 2, 'image': '1.webp'},
+    {'id': 3, 'image': '1.webp'},
+]
 
 def index(request):
-    data = {'title': 'Tesseract',
+    data = {'title': 'Главная страница',
             'menu': menu,
+            'posts': data_df
     }
     return render(request, 'mainimg/index.html', context=data)
 
@@ -37,7 +42,7 @@ def upload_slug(request, id_doc_slug):
 
 def analyse(request, id_doc):
     text='abcdef'
-    data = {'title': 'Analyse!',
+    data = {'title': 'Страница анализа изображения!',
             'obj': {'id': id_doc, 'text': text},
             'menu': menu
     }

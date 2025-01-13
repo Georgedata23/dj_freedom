@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>{{ title|default:"Без заголовка" }}</title>
 </head>
 <body>
-<p>{{menu}}</p>
-<p>{{ obj.id }}: {{ obj.text }}</p>
+<p>{{menu|first}}</p>
+<p>{{ obj.id }}: {{ obj.text|capfirst }}</p>
 </body>
 </html>

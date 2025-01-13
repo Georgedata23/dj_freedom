@@ -4,7 +4,15 @@
     <title>{{ title }}</title>
 </head>
 <body>
-<p>{{ menu }}</p>
-<h1> {{ title }} </h1>
+<p>{{ menu|join:" | " }}</p>
+<h1> {{ title| upper }} </h1>
+<ul>
+    {% for p in posts %}
+    <li>
+        <p>id: {{ p.id }}</p>
+        <p>{{ p.image }}</p>
+    </li>
+    {% endfor %}
+</ul>
 </body>
 </html>

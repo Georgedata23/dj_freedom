@@ -12,8 +12,8 @@ class TextImg:
 
 data_df = [
     {'id': 1, 'image': '1.webp'},
-    {'id': 2, 'image': '1.webp'},
-    {'id': 3, 'image': '1.webp'},
+    {'id': 2, 'image': '2.webp'},
+    {'id': 3, 'image': '3.webp'},
 ]
 
 def index(request):

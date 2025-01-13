@@ -1,19 +1,48 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+
+menu = [ "проанализировать картинку", "добавить картинку"]
+
+class TextImg:
+
+    def __init__(self, text: str, id_doc: int):
+        self.text = text
+        self.id = id_doc
+
 
 
 def index(request):
-    return HttpResponse("Страница приложения mainimg!")
+    data = {'title': 'Tesseract',
+            'menu': menu,
+    }
+    return render(request, 'mainimg/index.html', context=data)
+
 
 def upload(request, id_doc):
-    if request.POST:
-        return HttpResponse(f"<h2>Страница загрузки файла</h2><p>id: {id_doc}</p>")
-    else:
-        raise Http404()
+    # if request.POST:
+    data = {'title': 'Загрузка документа',
+            'menu': menu,
+            'for_image': 'Здесь должна быть загрузка картинки!',
+            'id': id_doc
+            }
+    return render(request, 'mainimg/upload.html', context=data)
+    # else:
+    #     raise Http404()
 
 
 def upload_slug(request, id_doc_slug):
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
+
+
+def analyse(request, id_doc):
+    text='abcdef'
+    data = {'title': 'Analyse!',
+            'obj': {'id': id_doc, 'text': text},
+            'menu': menu
+    }
+    return render(request, 'mainimg/analyse.html', data)
+
 
 def page_not_found(request, exception):
     return redirect('home', permanent=True)

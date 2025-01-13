@@ -1,8 +1,12 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from random import randint
 
+
+random_id = randint(1, 10000)
 menu = [ "проанализировать картинку", "добавить картинку"]
+menu_index = {'analyse': "Проанализировать картинку", 'upload': "добавить картинку", 'id': random_id}
 
 class TextImg:
 
@@ -18,7 +22,7 @@ data_df = [
 
 def index(request):
     data = {'title': 'Главная страница',
-            'menu': menu,
+            'menu': menu_index,
             'posts': data_df
     }
     return render(request, 'mainimg/index.html', context=data)

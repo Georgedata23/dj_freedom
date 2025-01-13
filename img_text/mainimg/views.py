@@ -5,8 +5,7 @@ from random import randint
 
 
 random_id = randint(1, 10000)
-menu = [ "проанализировать картинку", "добавить картинку"]
-menu_index = {'analyse': "Проанализировать картинку", 'upload': "добавить картинку", 'id': random_id}
+menu_index = {'analyse': "Проанализировать картинку", 'upload': "Добавить картинку", 'id': random_id}
 
 class TextImg:
 
@@ -31,7 +30,6 @@ def index(request):
 def upload(request, id_doc):
     # if request.POST:
     data = {'title': 'Загрузка документа',
-            'menu': menu,
             'for_image': 'Здесь должна быть загрузка картинки!',
             'id': id_doc
             }
@@ -47,8 +45,7 @@ def upload_slug(request, id_doc_slug):
 def analyse(request, id_doc):
     text='abcdef'
     data = {'title': 'Страница анализа изображения!',
-            'obj': {'id': id_doc, 'text': text},
-            'menu': menu
+            'obj': {'id': id_doc, 'text': text}
     }
     return render(request, 'mainimg/analyse.html', data)
 

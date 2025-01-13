@@ -9,9 +9,11 @@
 <ul>
     {% for p in posts %}
     <li>
-        <p>id: {{ p.id }}</p>
+        <b>id: {{ p.id }}</b>
         <p>{{ p.image }}</p>
+        {% if not forloop.last %}
         <hr>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>

@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
 
 def index(request):
     return HttpResponse("Страница приложения mainimg!")
@@ -10,8 +11,10 @@ def upload(request, id_doc):
     else:
         raise Http404()
 
+
 def upload_slug(request, id_doc_slug):
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
 
 def page_not_found(request, exception):
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+    return redirect('home', permanent=True)
+    # return HttpResponseNotFound('<h1>Страница не найдена</h1>')

@@ -19,7 +19,7 @@
     </li>
     {% endfor %}
 </ul>
-<p><a href="{% url 'logout' %}">Logout</a></p>
+<p><a href="{% url 'logout' %}">Выход из системы</a></p>
 {% else %}
     <p>You are not logged in. <a href="{% url 'login' %}">Login here</a>.</p>
 {% endif %}

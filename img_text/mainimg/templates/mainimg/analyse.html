@@ -6,7 +6,11 @@
 </head>
 <body>
 <h1>Анализ документа:</h1>
-<p>{{ obj.id }}: {{ obj.text|capfirst }}</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <p><label for="id">ID документа: </label><input type="number" id="id" name="field_id"></p>
+    <p><button type="submit">Отправить</button></p>
+</form>
 <p><a href="{% url 'logout' %}">Выход из системы</a></p>
 </body>
 </html>

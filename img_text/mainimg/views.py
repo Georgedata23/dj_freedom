@@ -40,25 +40,42 @@ def index(request):
 @login_required
 def upload(request, id_doc):
     if request.method == 'POST':
-        data = {'title': 'Загрузка документа',
-                'for_image': 'Здесь должна быть загрузка картинки!',
-                'id': id_doc
-                }
+        # Обработка отправленного файла (можно добавить логику сохранения файла)
+        data = {
+            'title': 'Загрузка документа',
+            'for_image': 'Файл успешно загружен!',
+            'id': id_doc
+        }
+        photo = request.POST['upload']
         return render(request, 'mainimg/upload.html', context=data)
+
+    elif request.method == 'GET':
+        # Отображение формы загрузки
+        data = {
+            'title': 'Загрузка документа',
+            'for_image': 'Здесь должна быть загрузка картинки!',
+            'id': id_doc
+        }
+        return render(request, 'mainimg/upload.html', context=data)
+
     else:
-         raise Http404()
+        raise Http404()
 
 
 def upload_slug(request, id_doc_slug):
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
 
 @login_required
-def analyse(request, id_doc):
-    text='abcdef'
-    data = {'title': 'Страница анализа изображения!',
-            'obj': {'id': id_doc, 'text': text}
-    }
-    return render(request, 'mainimg/analyse.html', data)
+def analyse(request):
+    if request.method == 'GET':
+        data = {'title': 'Страница анализа изображения!'}
+        return render(request, 'mainimg/analyse.html', data)
+    elif request.method == 'POST':
+        # Логика получения анализа документа
+        id_doc = request.POST['field_id']
+        print(id_doc)
+        data = {'title': 'Страница анализа изображения!'}
+        return render(request, 'mainimg/analyse.html', data)
 
 
 def page_not_found(request, exception):

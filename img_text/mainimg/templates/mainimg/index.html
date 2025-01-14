@@ -5,7 +5,7 @@
 </head>
 <body>
 {% if user.is_authenticated %}
-    <p><a href="{% url 'analyse' menu.id%}"> {{menu.analyse}}</a> | <a href="{% url 'upload' menu.id%}"> {{menu.upload}}</a></p>
+    <p><a href="{% url 'analyse' %}"> {{menu.analyse}}</a> | <a href="{% url 'upload' menu.id%}"> {{menu.upload}}</a></p>
 
 <h1> {{ title| upper }} </h1>
 <ul>

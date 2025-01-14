@@ -1,7 +1,16 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from random import randint
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
+
+
+class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
+    template_name = 'protected_page.html'
+
 
 
 random_id = randint(1, 10000)
@@ -19,6 +28,7 @@ data_df = [
     {'id': 3, 'image': '3.webp'},
 ]
 
+@login_required
 def index(request):
     data = {'title': 'Главная страница',
             'menu': menu_index,
@@ -27,21 +37,22 @@ def index(request):
     return render(request, 'mainimg/index.html', context=data)
 
 
+@login_required
 def upload(request, id_doc):
-    # if request.POST:
-    data = {'title': 'Загрузка документа',
-            'for_image': 'Здесь должна быть загрузка картинки!',
-            'id': id_doc
-            }
-    return render(request, 'mainimg/upload.html', context=data)
-    # else:
-    #     raise Http404()
+    if request.method == 'POST':
+        data = {'title': 'Загрузка документа',
+                'for_image': 'Здесь должна быть загрузка картинки!',
+                'id': id_doc
+                }
+        return render(request, 'mainimg/upload.html', context=data)
+    else:
+         raise Http404()
 
 
 def upload_slug(request, id_doc_slug):
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
 
-
+@login_required
 def analyse(request, id_doc):
     text='abcdef'
     data = {'title': 'Страница анализа изображения!',

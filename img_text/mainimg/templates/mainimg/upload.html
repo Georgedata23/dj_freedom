@@ -7,6 +7,10 @@
 <body>
 <h1> Загрузка документа: </h1>
 <p>id: {{ id }}</p>
-<p>{{ for_image }}</p>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p><input type="file" name="upload"></p>
+    <p><button type="submit">Отправить</button></p>
+</form>>
 </body>
 </html>

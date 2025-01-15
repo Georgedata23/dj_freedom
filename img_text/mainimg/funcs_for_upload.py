@@ -25,6 +25,7 @@ def for_upload_form(request, id_doc):
         if form.is_valid():
             file = form.cleaned_data['file']
             print(file.content_type.split("/")[1])
+            print(f"{file.size//1024}Kb")
             handle_uploaded_file(file, id_doc)
     else:
         form = UploadFileForm()

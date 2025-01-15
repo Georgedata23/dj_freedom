@@ -6,6 +6,7 @@ from random import randint
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
+from mainimg.forms import UploadFileForm
 
 
 class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
@@ -37,16 +38,25 @@ def index(request):
     return render(request, 'mainimg/index.html', context=data)
 
 
+
+def handle_uploaded_file(f, id_doc: int):
+    with open(f"media/{id_doc}.webp", "wb+") as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
 @login_required
 def upload(request, id_doc):
     if request.method == 'POST':
-        # Обработка отправленного файла (можно добавить логику сохранения файла)
+
         data = {
             'title': 'Загрузка документа',
             'for_image': 'Файл успешно загружен!',
             'id': id_doc,
             'menu': menu_index
         }
+        handle_uploaded_file(request.FILES['upload'], id_doc)
+        form = UploadFileForm(request.POST, request.FILES)
         # photo = request.POST['upload']
         return render(request, 'mainimg/upload.html', context=data)
 

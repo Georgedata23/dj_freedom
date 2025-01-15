@@ -1,25 +1,19 @@
-import os
-from pyexpat.errors import messages
+
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from random import randint
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
-from mainimg.forms import UploadFileForm
-from mainimg.funcs_for_upload import for_upload_form, check_id_message
+from mainimg.service_for_upload import ForUpload
+from mainimg.variables import menu_index, data_df
 
 
-class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
-    template_name = 'protected_page.html'
-
-
-
-random_id = randint(1, 10000)
-menu_index = {'analyse': "Проанализировать картинку", 'upload': "Добавить картинку", 'id': random_id}
+# class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
+#     template_name = 'protected_page.html'
 
 class TextImg:
 
@@ -27,11 +21,6 @@ class TextImg:
         self.text = text
         self.id = id_doc
 
-data_df = [
-    {'id': 1, 'image': '1.webp'},
-    {'id': 2, 'image': '2.webp'},
-    {'id': 3, 'image': '3.webp'},
-]
 
 @login_required
 def index(request):
@@ -46,8 +35,10 @@ def index(request):
 
 @login_required
 def upload(request, id_doc):
-    message, id_doc = check_id_message(id_doc)
-    form = for_upload_form(request, id_doc)
+
+    up = ForUpload(id_doc, request)
+    message, id_doc = up.check_id_message()
+    form = up.for_upload_form()
     data = {
         'title': 'Загрузка документа',
         'for_image': 'Файл успешно загружен!',
@@ -57,9 +48,6 @@ def upload(request, id_doc):
         'message': message
     }
     return render(request, 'mainimg/upload.html', context=data)
-
-
-
 
 def upload_slug(request, id_doc_slug):
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
@@ -80,4 +68,3 @@ def analyse(request):
 
 def page_not_found(request, exception):
     return redirect('home', permanent=True)
-    # return HttpResponseNotFound('<h1>Страница не найдена</h1>')

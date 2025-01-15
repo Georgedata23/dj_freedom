@@ -44,9 +44,10 @@ def upload(request, id_doc):
         data = {
             'title': 'Загрузка документа',
             'for_image': 'Файл успешно загружен!',
-            'id': id_doc
+            'id': id_doc,
+            'menu': menu_index
         }
-        photo = request.POST['upload']
+        # photo = request.POST['upload']
         return render(request, 'mainimg/upload.html', context=data)
 
     elif request.method == 'GET':
@@ -54,7 +55,8 @@ def upload(request, id_doc):
         data = {
             'title': 'Загрузка документа',
             'for_image': 'Здесь должна быть загрузка картинки!',
-            'id': id_doc
+            'id': id_doc,
+            'menu': menu_index
         }
         return render(request, 'mainimg/upload.html', context=data)
 
@@ -68,7 +70,8 @@ def upload_slug(request, id_doc_slug):
 @login_required
 def analyse(request):
     if request.method == 'GET':
-        data = {'title': 'Страница анализа изображения!'}
+        data = {'title': 'Страница анализа изображения!',
+                'menu': menu_index}
         return render(request, 'mainimg/analyse.html', data)
     elif request.method == 'POST':
         # Логика получения анализа документа

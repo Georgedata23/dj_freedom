@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
 {% if user.is_authenticated %}
     <p><a href="{% url 'analyse' %}"> {{menu.analyse}}</a> | <a href="{% url 'upload' menu.id%}"> {{menu.upload}}</a></p>
 
@@ -19,9 +16,7 @@
     </li>
     {% endfor %}
 </ul>
-<p><a href="{% url 'logout' %}">Выход из системы</a></p>
 {% else %}
     <p>You are not logged in. <a href="{% url 'login' %}">Login here</a>.</p>
 {% endif %}
-</body>
-</html>
+{% endblock %}

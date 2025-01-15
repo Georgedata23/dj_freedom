@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
 from mainimg.forms import UploadFileForm
+from mainimg.funcs_for_upload import for_upload_form, check_id_message
 
 
 class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
@@ -42,26 +43,11 @@ def index(request):
 
 
 
-def handle_uploaded_file(f, id_doc: int):
-    with open(f"media/{id_doc}.webp", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
 
 @login_required
 def upload(request, id_doc):
-    message = ''
-    while os.path.exists(f"media/{id_doc}.webp"):
-        id_doc += 1
-        message = f"Используется другой  id: {id_doc}"
-
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(form.cleaned_data['file'], id_doc)
-    else:
-        form = UploadFileForm()
-
+    message, id_doc = check_id_message(id_doc)
+    form = for_upload_form(request, id_doc)
     data = {
         'title': 'Загрузка документа',
         'for_image': 'Файл успешно загружен!',
@@ -70,7 +56,6 @@ def upload(request, id_doc):
         'form': form,
         'message': message
     }
-
     return render(request, 'mainimg/upload.html', context=data)
 
 

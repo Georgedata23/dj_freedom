@@ -1,3 +1,6 @@
+import os
+from pyexpat.errors import messages
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
@@ -6,6 +9,7 @@ from random import randint
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
+from mainimg.forms import UploadFileForm
 
 
 class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
@@ -46,31 +50,30 @@ def handle_uploaded_file(f, id_doc: int):
 
 @login_required
 def upload(request, id_doc):
+    message = ''
+    while os.path.exists(f"media/{id_doc}.webp"):
+        id_doc += 1
+        message = f"Используется другой  id: {id_doc}"
+
     if request.method == 'POST':
-
-        data = {
-            'title': 'Загрузка документа',
-            'for_image': 'Файл успешно загружен!',
-            'id': id_doc,
-            'menu': menu_index
-        }
-        handle_uploaded_file(request.FILES['upload'], id_doc)
-        # form = UploadFileForm(request.POST, request.FILES)
-        # photo = request.POST['upload']
-        return render(request, 'mainimg/upload.html', context=data)
-
-    elif request.method == 'GET':
-        # Отображение формы загрузки
-        data = {
-            'title': 'Загрузка документа',
-            'for_image': 'Здесь должна быть загрузка картинки!',
-            'id': id_doc,
-            'menu': menu_index
-        }
-        return render(request, 'mainimg/upload.html', context=data)
-
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(form.cleaned_data['file'], id_doc)
     else:
-        raise Http404()
+        form = UploadFileForm()
+
+    data = {
+        'title': 'Загрузка документа',
+        'for_image': 'Файл успешно загружен!',
+        'id': id_doc,
+        'menu': menu_index,
+        'form': form,
+        'message': message
+    }
+
+    return render(request, 'mainimg/upload.html', context=data)
+
+
 
 
 def upload_slug(request, id_doc_slug):

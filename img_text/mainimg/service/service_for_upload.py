@@ -1,7 +1,9 @@
 import os
 
+from django.contrib.auth.models import User
+
 from mainimg.forms import UploadFileForm
-from mainimg.models import Docs, Cart
+from mainimg.models import Docs, Cart, Price, UsersToDocs
 
 
 class ForUpload:
@@ -58,10 +60,15 @@ class ForUpload:
 
 
     def create_to_db(self, form):
-        Docs(id=self.id_doc, file_path=f"../media/{self.id_doc}.webp",
-             size=form.cleaned_data['file'].size//1024).save()
+        d = Docs(id=self.id_doc, file_path=f"../media/{self.id_doc}.webp",
+             size=form.cleaned_data['file'].size//1024)
+        d.save()
 
         price_id = self.for_file_type_id(form)
+        p = Price.objects.filter(id=price_id)[0]
+        u = UsersToDocs.objects.filter(id=1)[0]
+        print(p.price)
+        print(u.pk)
 
-        Cart(id=self.id_doc, user_id=1, docs_id=self.id_doc, price_id=price_id, order_price=, payment=False)
-        # UsersToDocs(id=, username=self.request.user, docs_id=id_doc)    @staticmethod
+        Cart(id=self.id_doc, user_id=u , docs_id=d,
+             price_id=p, order_price=p.price * d.size, payment=False).save()

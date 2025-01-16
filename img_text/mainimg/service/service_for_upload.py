@@ -19,25 +19,18 @@ class ForUpload:
             message = f"Использовался другой  id: {self.id_doc}"
         return message, self.id_doc
 
-    @staticmethod
-    def handle_uploaded_file(f, id_doc):
-        with open(f"media/{id_doc}.webp", "wb+") as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-
 
     def for_upload_form(self):
         if self.request.method == 'POST':
             form = UploadFileForm(self.request.POST, self.request.FILES)
             if form.is_valid():
                 file = form.cleaned_data['file']
-                print(file.content_type.split("/")[1])
                 self.create_to_db(form)
                 self.handle_uploaded_file(file, self.id_doc)
-                print(self.request.user)
         else:
             form = UploadFileForm()
         return form
+
 
     @staticmethod
     def for_file_type_id(form):
@@ -60,15 +53,21 @@ class ForUpload:
 
 
     def create_to_db(self, form):
-        d = Docs(id=self.id_doc, file_path=f"../media/{self.id_doc}.webp",
-             size=form.cleaned_data['file'].size//1024)
-        d.save()
+
+        docs_upload = Docs(id=self.id_doc, file_path=f"../media/{self.id_doc}.webp",
+                           size=form.cleaned_data['file'].size // 1024)
+        docs_upload.save()
 
         price_id = self.for_file_type_id(form)
-        p = Price.objects.filter(id=price_id)[0]
-        u = UsersToDocs.objects.filter(id=1)[0]
-        print(p.price)
-        print(u.pk)
+        price_upload = Price.objects.filter(id=price_id)[0]
+        user_upload = UsersToDocs.objects.filter(id=1)[0]
 
-        Cart(id=self.id_doc, user_id=u , docs_id=d,
-             price_id=p, order_price=p.price * d.size, payment=False).save()
+        Cart(id=self.id_doc, user_id=user_upload , docs_id=docs_upload,
+             price_id=price_upload, order_price=price_upload.price * docs_upload.size, payment=False).save()
+
+
+    @staticmethod
+    def handle_uploaded_file(f, id_doc):
+        with open(f"media/{id_doc}.webp", "wb+") as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)

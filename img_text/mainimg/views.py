@@ -1,15 +1,11 @@
 
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template.loader import render_to_string
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-
-from mainimg.service_for_upload import ForUpload
-from mainimg.variables import menu_index, data_df
+from mainimg.service.service_for_upload import ForUpload
+from mainimg.service.variables import menu_index, data_df
 
 
 # class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view

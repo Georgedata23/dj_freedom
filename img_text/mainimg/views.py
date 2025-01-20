@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import TemplateView
 from django.views import View
 
+from img_text import settings
 from mainimg.service.service_for_delete_index import ForIndex, ForDelete
 from mainimg.service.service_for_upload import ForUpload
 from mainimg.service.variables import menu_index, data_df
@@ -60,12 +61,25 @@ def analyse(request):
         data = {'title': 'Страница анализа изображения!',
                 'menu': menu_index}
         return render(request, 'mainimg/analyse.html', data)
+
     elif request.method == 'POST':
-        # Логика получения анализа документа
         id_doc = request.POST['field_id']
-        print(id_doc)
-        data = {'title': 'Страница анализа изображения!'}
-        return render(request, 'mainimg/analyse.html', data)
+        if os.path.exists(f"media/{id_doc}.webp"):
+            text = "sflkhnfgmgfg"
+            image = {
+                'url': os.path.join(settings.MEDIA_URL, f"{id_doc}.webp"),
+                'id': id_doc,
+            }
+
+            data = {'title': 'Страница результата анализа изображения!',
+                    'text': text,
+                    'menu': menu_index,
+                    'image': image}
+            return render(request, 'mainimg/analyse_response.html', data)
+        else:
+            return HttpResponse("<h1> Файл с данным id не найден! </h1>")
+
+
 
 
 @login_required

@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django.views import View
 
 from img_text import settings
+from mainimg.models import Cart
 from mainimg.service.service_for_delete_index import ForIndex, ForDelete
 from mainimg.service.service_for_upload import ForUpload
 from mainimg.service.variables import menu_index, data_df
@@ -70,6 +71,9 @@ def analyse(request):
                 'url': os.path.join(settings.MEDIA_URL, f"{id_doc}.webp"),
                 'id': id_doc,
             }
+            cart = Cart.objects.get(docs_id=id_doc)
+            cart.payment = True
+            cart.save()
 
             data = {'title': 'Страница результата анализа изображения!',
                     'text': text,

@@ -61,8 +61,8 @@ class ForUpload:
 
         price_id = self.for_file_type_id(form)
         price_upload = Price.objects.get(pk=price_id)
-        user_upload = UsersToDocs.objects.get(pk=1)
-
+        user_upload = UsersToDocs.objects.get(username=self.request.user)
+        docs_upload.users_to_docs.set([user_upload])
         Cart(id=self.id_doc, user_id=user_upload, docs_id=docs_upload,
              price_id=price_upload, order_price=price_upload.price * docs_upload.size, payment=False).save()
 

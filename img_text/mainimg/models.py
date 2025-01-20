@@ -12,6 +12,7 @@ class Docs(models.Model):
 class UsersToDocs(models.Model):
     id = models.IntegerField
     username = models.CharField(max_length=50)
+    docs_id = models.ManyToManyField('Docs', blank=True, related_name='users_to_docs')
 
     def __str__(self):
         return self.username

@@ -12,5 +12,6 @@ urlpatterns = [
     path('analyse/', views.analyse, name='analyse'),
     path('login/', auth_views.LoginView.as_view(template_name='mainimg/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login/'), name='logout'),
-    path('delete/', views.DeleteFormView.as_view(), name='delete')
+    path('delete/', views.DeleteFormView.as_view(), name='delete'),
+    path('get_text/', views.get_text, name='get_text')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

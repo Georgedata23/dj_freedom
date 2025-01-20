@@ -79,21 +79,21 @@ def analyse(request):
         else:
             return HttpResponse("<h1> Файл с данным id не найден! </h1>")
 
-
-
-
 @login_required
-def delete(request):
+def get_text(request):
     if request.method == 'GET':
-        data = {'title': 'Страница удаления изображения!',
+        data = {'title': 'Страница получения текста!',
                 'menu': menu_index}
-        return render(request, 'mainimg/delete.html', data)
+        return render(request, 'mainimg/get_text.html', data)
+
     elif request.method == 'POST':
-        # Логика получения анализа документа
         id_doc = request.POST['field_id']
-        print(id_doc)
-        data = {'title': 'Страница удаления изображения!'}
-        return render(request, 'mainimg/delete.html', data)
+        text = "sflkhnfgmgfg"
+        data = {'title': 'Страница результата анализа изображения!',
+                'text': text,
+                'menu': menu_index,
+                'id': id_doc}
+        return render(request, 'mainimg/get_text_response.html', data)
 
 
 class DeleteFormView(PermissionRequiredMixin, TemplateView):

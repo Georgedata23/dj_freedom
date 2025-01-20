@@ -16,8 +16,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="{% url 'analyse' %}">Analyse</a></li>
-                <li><a href="{% url 'upload' menu.id%}">Upload</a></li>
+                <li><a href="{% url 'analyse' %}">{{ menu.analyse }}</a></li>
+                <li><a href="{% url 'upload' menu.id%}">{{ menu.upload }}</a></li>
+                <li><a href="{% url 'get_text' %}">{{ menu.get_text }}</a></li>
             </ul>
         </nav>
     </header>

@@ -5,7 +5,7 @@
     <p><a href="{% url 'analyse' %}"> {{menu.analyse}}</a> | <a href="{% url 'upload' menu.id%}"> {{menu.upload}}</a></p>
 
 <h1> {{ title| upper }} </h1>
-<div>
+    <div>
         {% for image in images %}
         <li>
             <b>id: {{ image.title }} </b>
@@ -18,17 +18,6 @@
             <p>No images found.</p>
         {% endfor %}
     </div>
-<ul>
-    {% for p in posts %}
-    <li>
-        <b>id: {{ p.id }}</b>
-        <p>{{ p.image }}</p>
-        {% if not forloop.last %}
-        <hr>
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
 {% else %}
     <p>You are not logged in. <a href="{% url 'login' %}">Login here</a>.</p>
 {% endif %}

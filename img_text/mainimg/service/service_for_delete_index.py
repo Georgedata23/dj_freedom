@@ -37,3 +37,15 @@ class ForDelete:
         os.remove(f'media/{id_doc}.webp')
         cls.db_delete_data(id_doc, request)
 
+
+class ForGetText:
+
+    @classmethod
+    def text_image_db(self, id_doc):
+        text = "sflkhnfgmgfg"
+        image = {
+            'url': os.path.join(settings.MEDIA_URL, f"{id_doc}.webp"),
+            'id': id_doc,
+        }
+        Cart.objects.filter(docs_id=id_doc).update(payment=True)
+        return text, image

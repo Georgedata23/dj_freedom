@@ -5,6 +5,19 @@
     <p><a href="{% url 'analyse' %}"> {{menu.analyse}}</a> | <a href="{% url 'upload' menu.id%}"> {{menu.upload}}</a></p>
 
 <h1> {{ title| upper }} </h1>
+<div>
+        {% for image in images %}
+        <li>
+            <b>id: {{ image.title }} </b>
+            <div style="margin-bottom: 20px;">
+                <img src="{{ image.url }}" alt="{{ image.title }}" style="max-width: 300px; max-height: 300px;">
+                <hr>
+            </div>
+        </li>
+        {% empty %}
+            <p>No images found.</p>
+        {% endfor %}
+    </div>
 <ul>
     {% for p in posts %}
     <li>

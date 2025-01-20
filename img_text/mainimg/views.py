@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from mainimg.service.service_for_upload import ForUpload
+from mainimg.service.service_for_upload import ForUpload, ForIndex
 from mainimg.service.variables import menu_index, data_df
 
 
@@ -20,9 +20,13 @@ class TextImg:
 
 @login_required
 def index(request):
+
+    images = ForIndex.files_upload()
+
     data = {'title': 'Главная страница',
             'menu': menu_index,
-            'posts': data_df
+            'posts': data_df,
+            'images': images
     }
     return render(request, 'mainimg/index.html', context=data)
 

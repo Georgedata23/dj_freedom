@@ -1,8 +1,11 @@
-
+import time
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.generic import TemplateView
+from django.views import View
 
 from mainimg.service.service_for_upload import ForUpload, ForIndex
 from mainimg.service.variables import menu_index, data_df
@@ -78,6 +81,29 @@ def delete(request):
         print(id_doc)
         data = {'title': 'Страница удаления изображения!'}
         return render(request, 'mainimg/delete.html', data)
+
+
+class DeleteFormView(PermissionRequiredMixin, TemplateView):
+    template_name = 'restricted_form.html'
+    permission_required = 'app_name.some_permission'
+    raise_exception = True
+
+    def get(self, request):
+        data = {'title': 'Страница удаления изображения!',
+                'menu': menu_index}
+        return render(request, 'mainimg/delete.html', data)
+
+    def post(self, request):
+        id_doc = request.POST['field_id']
+        print(id_doc)
+        data = {'title': 'Страница удаления изображения!'}
+        return render(request, 'mainimg/delete.html', data)
+
+
+
+
+def forbidden(request, exception):
+    return HttpResponse("<h1>Отказано в доступе, обратитесь к администрации сайта, kiss!</h1>")
 
 
 def page_not_found(request, exception):

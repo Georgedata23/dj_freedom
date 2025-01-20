@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Удаление документа:</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <p><label for="id">ID документа: </label><input type="number" id="id" name="field_id"></p>
+    <p><button type="submit">Удалить</button></p>
+</form>
+{% endblock %}

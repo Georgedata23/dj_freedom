@@ -1,4 +1,5 @@
 import os
+from pyexpat.errors import messages
 
 from django.contrib.auth.models import User
 
@@ -28,9 +29,13 @@ class ForUpload:
                 file = form.cleaned_data['file']
                 self.create_to_db(form)
                 self.handle_uploaded_file(file, self.id_doc)
+                message = ''
+            else:
+                message = 'Используйте изображение, недопустимый формат!'
         else:
             form = UploadFileForm()
-        return form
+            message = ''
+        return form, message
 
 
     @staticmethod

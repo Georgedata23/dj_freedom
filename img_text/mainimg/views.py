@@ -38,14 +38,15 @@ def upload(request, id_doc):
 
     up = ForUpload(id_doc, request)
     message, id_doc = up.check_id_message()
-    form = up.for_upload_form()
+    form, message_form = up.for_upload_form()
     data = {
         'title': 'Загрузка документа',
         'for_image': 'Файл успешно загружен!',
         'id': id_doc,
         'menu': menu_index,
         'form': form,
-        'message': message
+        'message': message,
+        'message_form': message_form,
     }
     return render(request, 'mainimg/upload.html', context=data)
 
@@ -64,6 +65,19 @@ def analyse(request):
         print(id_doc)
         data = {'title': 'Страница анализа изображения!'}
         return render(request, 'mainimg/analyse.html', data)
+
+@login_required
+def delete(request):
+    if request.method == 'GET':
+        data = {'title': 'Страница удаления изображения!',
+                'menu': menu_index}
+        return render(request, 'mainimg/delete.html', data)
+    elif request.method == 'POST':
+        # Логика получения анализа документа
+        id_doc = request.POST['field_id']
+        print(id_doc)
+        data = {'title': 'Страница удаления изображения!'}
+        return render(request, 'mainimg/delete.html', data)
 
 
 def page_not_found(request, exception):

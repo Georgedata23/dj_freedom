@@ -9,6 +9,11 @@ class Docs(models.Model):
     def __str__(self):
         return self.id
 
+    class Meta:
+        verbose_name = "Документы"
+        verbose_name_plural = "Документы"
+
+
 class UsersToDocs(models.Model):
     id = models.IntegerField
     username = models.CharField(max_length=50)
@@ -17,6 +22,10 @@ class UsersToDocs(models.Model):
     def __str__(self):
         return self.username
 
+    class Meta:
+        verbose_name = "Пользователи"
+        verbose_name_plural = "Пользователи"
+
 class Price(models.Model):
     id = models.IntegerField
     file_type = models.CharField(max_length=10, blank=True)
@@ -24,6 +33,10 @@ class Price(models.Model):
 
     def __str__(self):
         return self.file_type
+
+    class Meta:
+        verbose_name = "Цены"
+        verbose_name_plural = "Цены"
 
 class Cart(models.Model):
     id = models.IntegerField
@@ -35,3 +48,7 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.id
+
+    class Meta:
+        verbose_name = "Корзины"
+        verbose_name_plural = "Корзины"

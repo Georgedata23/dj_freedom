@@ -3,7 +3,8 @@
 {% block content %}
 <h1> Загрузка документа: </h1>
 <p>id: {{ id }}</p>
-<p>{{message}}</p>
+<p>{{ message }}</p>
+<p>{{ message_form }}</p>
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}

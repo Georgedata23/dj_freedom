@@ -71,9 +71,8 @@ def analyse(request):
                 'url': os.path.join(settings.MEDIA_URL, f"{id_doc}.webp"),
                 'id': id_doc,
             }
-            cart = Cart.objects.get(docs_id=id_doc)
-            cart.payment = True
-            cart.save()
+
+            Cart.objects.filter(docs_id=id_doc).update(payment=True)
 
             data = {'title': 'Страница результата анализа изображения!',
                     'text': text,

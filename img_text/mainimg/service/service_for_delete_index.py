@@ -27,7 +27,8 @@ class ForDelete:
     def db_delete_data(id_doc, request):
         Cart.objects.get(docs_id=id_doc).delete()
         doc = Docs.objects.get(pk=id_doc)
-        UsersToDocs.objects.get(username=request.user).docs_id.remove(doc)
+        utd = UsersToDocs.objects.get(username=request.user)
+        utd.docs_id.remove(doc)
         doc.delete()
 
 

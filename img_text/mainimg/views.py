@@ -33,8 +33,6 @@ def index(request):
     return render(request, 'mainimg/index.html', context=data)
 
 
-
-
 @login_required
 def upload(request, id_doc):
 
@@ -55,6 +53,7 @@ def upload(request, id_doc):
 def upload_slug(request, id_doc_slug):
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
 
+
 @login_required
 def analyse(request):
     if request.method == 'GET':
@@ -67,6 +66,7 @@ def analyse(request):
         print(id_doc)
         data = {'title': 'Страница анализа изображения!'}
         return render(request, 'mainimg/analyse.html', data)
+
 
 @login_required
 def delete(request):
@@ -86,6 +86,7 @@ class DeleteFormView(PermissionRequiredMixin, TemplateView):
     template_name = 'restricted_form.html'
     permission_required = 'app_name.some_permission'
     raise_exception = True
+
     data = {"title": "Страница удаления изображения!", 'menu': menu_index}
 
     def get(self, request):
@@ -98,10 +99,6 @@ class DeleteFormView(PermissionRequiredMixin, TemplateView):
             return HttpResponse(f"<h1>Файл {id_doc}.webp успешно удалён.</h1>")
         except FileNotFoundError:
             return HttpResponse(f"<h1>Файл {id_doc}.webp не найден.</h1>")
-
-
-
-
 
 
 def forbidden(request, exception):

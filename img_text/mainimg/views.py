@@ -1,3 +1,4 @@
+import os
 import time
 
 from django.contrib.auth.decorators import login_required
@@ -7,12 +8,10 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import TemplateView
 from django.views import View
 
-from mainimg.service.service_for_upload import ForUpload, ForIndex
+from mainimg.service.service_for_delete_index import ForIndex, ForDelete
+from mainimg.service.service_for_upload import ForUpload
 from mainimg.service.variables import menu_index, data_df
 
-
-# class ProtectedPageView(LoginRequiredMixin, TemplateView): # Для классовых view
-#     template_name = 'protected_page.html'
 
 class TextImg:
 
@@ -87,23 +86,26 @@ class DeleteFormView(PermissionRequiredMixin, TemplateView):
     template_name = 'restricted_form.html'
     permission_required = 'app_name.some_permission'
     raise_exception = True
+    data = {"title": "Страница удаления изображения!", 'menu': menu_index}
 
     def get(self, request):
-        data = {'title': 'Страница удаления изображения!',
-                'menu': menu_index}
-        return render(request, 'mainimg/delete.html', data)
+        return render(request, 'mainimg/delete.html', self.data)
 
     def post(self, request):
         id_doc = request.POST['field_id']
-        print(id_doc)
-        data = {'title': 'Страница удаления изображения!'}
-        return render(request, 'mainimg/delete.html', data)
+        try:
+            ForDelete.file_delete(id_doc, request)
+            return HttpResponse(f"<h1>Файл {id_doc}.webp успешно удалён.</h1>")
+        except FileNotFoundError:
+            return HttpResponse(f"<h1>Файл {id_doc}.webp не найден.</h1>")
+
+
 
 
 
 
 def forbidden(request, exception):
-    return HttpResponse("<h1>Отказано в доступе, обратитесь к администрации сайта, kiss!</h1>")
+    return HttpResponse("<h1>вам сюда нельзя, kiss!</h1>")
 
 
 def page_not_found(request, exception):

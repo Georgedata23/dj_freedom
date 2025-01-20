@@ -78,18 +78,3 @@ class ForUpload:
             for chunk in f.chunks():
                 destination.write(chunk)
 
-
-class ForIndex:
-
-    @staticmethod
-    def files_upload():
-        images_dir = os.path.join(settings.MEDIA_ROOT)
-        # Получение списка файлов в папке
-        images = [{
-            'url': os.path.join(settings.MEDIA_URL, f),
-            'title': os.path.splitext(f)[0],
-        }
-        for f in os.listdir(images_dir)
-        if os.path.isfile(os.path.join(images_dir, f))
-        ]
-        return images

@@ -10,7 +10,7 @@ from django.views import View
 
 from img_text import settings
 from mainimg.models import Cart
-from mainimg.service.service_for_delete_index import ForIndex, ForDelete, ForGetText
+from mainimg.service.service_for_delete_index import ForIndex, ForDelete, ForAnalyse
 from mainimg.service.service_for_upload import ForUpload
 from mainimg.service.variables import menu_index, data_df
 
@@ -66,7 +66,8 @@ def analyse(request):
     elif request.method == 'POST':
         id_doc = request.POST['field_id']
         if os.path.exists(f"media/{id_doc}.webp"):
-            text, image = ForGetText.text_image_db(id_doc)
+            image = ForAnalyse.text_image_db(id_doc)
+            text = "dfgnadfkljgkldfgj"
             data = {'title': 'Страница результата анализа изображения!',
                     'text': text,
                     'menu': menu_index,

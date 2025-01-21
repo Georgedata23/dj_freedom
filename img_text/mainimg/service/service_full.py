@@ -1,7 +1,5 @@
 import os
 
-from django.http import HttpResponse
-
 from img_text import settings
 from mainimg.models import Cart, Docs, UsersToDocs
 
@@ -40,12 +38,14 @@ class ForDelete:
 
 class ForAnalyse:
 
-    @classmethod
-    def text_image_db(cls, id_doc):
+    @staticmethod
+    def text_image_db(id_doc):
         image =  {
                 'url': os.path.join(settings.MEDIA_URL, f"{id_doc}.webp"),
                 'title': id_doc
             }
-
         Cart.objects.filter(docs_id=id_doc).update(payment=True)
         return image
+
+
+

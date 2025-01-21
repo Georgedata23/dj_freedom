@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from img_text import settings
 from mainimg.forms import UploadFileForm
 from mainimg.models import Docs, Cart, Price, UsersToDocs
+from mainimg.service.variables import menu_index
 
 
 class ForUpload:
@@ -77,4 +78,6 @@ class ForUpload:
         with open(f"media/{id_doc}.webp", "wb+") as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
+
 

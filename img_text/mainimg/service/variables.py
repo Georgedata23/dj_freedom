@@ -7,4 +7,4 @@ menu_index = {'analyse': "Проанализировать картинку",
               'upload': "Добавить картинку", 'id': random_id,
               'get_text': "Получить текст", 'home': "Главная страница"}
 
-
+FASTAPI_URL = "http://localhost:8001"

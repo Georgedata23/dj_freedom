@@ -1,11 +1,12 @@
+import json
 import os
-from pyexpat.errors import messages
 
 from django.contrib.auth.models import User
 
 from img_text import settings
 from mainimg.forms import UploadFileForm
 from mainimg.models import Docs, Cart, Price, UsersToDocs
+from mainimg.service.service_as_client import send_image_to_fastapi
 from mainimg.service.variables import menu_index
 
 
@@ -30,6 +31,7 @@ class ForUpload:
                 file = form.cleaned_data['file']
                 self.create_to_db(form)
                 self.handle_uploaded_file(file, self.id_doc)
+                print(send_image_to_fastapi(self.request, self.id_doc).status_code)
                 message = ''
             else:
                 message = 'Используйте изображение, недопустимый формат!'

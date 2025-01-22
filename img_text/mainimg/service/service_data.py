@@ -1,3 +1,4 @@
+from mainimg.service.service_as_client import analyse_to_fastapi, get_text_to_fastapi
 from mainimg.service.service_for_upload import ForUpload
 from mainimg.service.service_full import ForIndex, ForAnalyse
 from mainimg.service.variables import menu_index
@@ -39,7 +40,8 @@ def for_data_index():
 
 def for_data_analyse_post(id_doc):
     image = ForAnalyse.text_image_db(id_doc)
-    text = "dfgnadfkljgkldfgj"
+    print(analyse_to_fastapi(id_doc))
+    text = get_text_to_fastapi(id_doc)
     data = {'title': 'Страница результата анализа изображения!',
             'text': text,
             'menu': menu_index,
@@ -49,7 +51,7 @@ def for_data_analyse_post(id_doc):
 
 def for_data_get_text_post(request):
     id_doc = request.POST['field_id']
-    text = "sflkhnfgmgfg"
+    text = get_text_to_fastapi(id_doc)
     data = {'title': 'Страница результата анализа изображения!',
             'text': text,
             'menu': menu_index,

@@ -40,7 +40,7 @@ def for_data_index():
 
 def for_data_analyse_post(id_doc):
     image = ForAnalyse.text_image_db(id_doc)
-    print(analyse_to_fastapi(id_doc))
+    analyse_to_fastapi(id_doc)
     text = get_text_to_fastapi(id_doc)
     data = {'title': 'Страница результата анализа изображения!',
             'text': text,

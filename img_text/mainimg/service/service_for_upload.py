@@ -31,7 +31,7 @@ class ForUpload:
                 file = form.cleaned_data['file']
                 self.create_to_db(form)
                 self.handle_uploaded_file(file, self.id_doc)
-                print(send_image_to_fastapi(self.request, self.id_doc).status_code)
+                send_image_to_fastapi(self.id_doc)
                 message = ''
             else:
                 message = 'Используйте изображение, недопустимый формат!'

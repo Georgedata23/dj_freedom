@@ -35,7 +35,7 @@ class ForDelete:
     def file_delete(cls, id_doc, request):
         os.remove(f'media/{id_doc}.webp')
         cls.db_delete_data(id_doc, request)
-        print(delete_to_fastapi(id_doc).status_code)
+        delete_to_fastapi(id_doc)
 
 
 class ForAnalyse:

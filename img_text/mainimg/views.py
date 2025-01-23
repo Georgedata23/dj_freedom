@@ -1,5 +1,4 @@
 import os
-import time
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -9,8 +8,7 @@ from django.views.generic import TemplateView
 
 from mainimg.service.service_data import for_data_upload, for_data_index, data_analyse_get, for_data_analyse_post, \
     data_get_text_get, for_data_get_text_post, data_delete
-from mainimg.service.service_full import ForDelete, ForAnalyse
-from mainimg.service.variables import menu_index
+from mainimg.service.service_full import ForDelete
 
 @login_required
 def index(request):

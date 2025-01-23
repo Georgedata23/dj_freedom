@@ -21,7 +21,11 @@
                 <li><a href="{% url 'analyse' %}">{{ menu.analyse }}</a></li>
                 <li><a href="{% url 'upload' menu.id%}">{{ menu.upload }}</a></li>
                 <li><a href="{% url 'get_text' %}">{{ menu.get_text }}</a></li>
-                <li><a href="{% url 'logout' %}">Выйти</a></li>
+                <li><form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Выйти</button>
+                    </form>
+                    </li>
                 <li>Привет, {{ user.username }}!</li>
             </ul>
         </nav>

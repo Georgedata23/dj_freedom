@@ -8,3 +8,5 @@ menu_index = {'analyse': "Проанализировать картинку",
               'get_text': "Получить текст", 'home': "Главная страница"}
 
 FASTAPI_URL = "http://localhost:8001"
+
+

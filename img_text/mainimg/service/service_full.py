@@ -5,6 +5,8 @@ from mainimg.models import Cart, Docs, UsersToDocs
 from mainimg.service.service_as_client import delete_to_fastapi
 
 
+
+
 class ForIndex:
 
     @staticmethod

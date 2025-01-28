@@ -1,0 +1,27 @@
+
+networks:
+  shared_network:
+    external: true
+
+services:
+  django_app:
+    container_name: django_project
+    build:
+      context: ./img_text
+    env_file:
+      - .env-django
+    depends_on:
+      db_django:
+        condition: service_healthy
+    command: [ "/src/for_docker/app.sh" ]
+    ports:
+      - "8000:8000"
+    networks:
+      - shared_network
+
+  db:
+    image: postgres:16
+    container_name: shared_postgres
+    networks:
+      - shared_network
+    external: true

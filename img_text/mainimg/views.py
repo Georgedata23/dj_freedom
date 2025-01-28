@@ -54,6 +54,7 @@ class DeleteFormView(PermissionRequiredMixin, TemplateView):
     permission_required = 'app_name.some_permission'
     raise_exception = True
 
+
     def get(self, request):
         return render(request, 'mainimg/delete.html', data_delete)
 

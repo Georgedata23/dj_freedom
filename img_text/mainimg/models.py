@@ -47,7 +47,7 @@ class Cart(models.Model):
     payment = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.id
+        return self.payment
 
     class Meta:
         verbose_name = "Корзины"

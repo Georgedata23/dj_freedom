@@ -1,13 +1,12 @@
-import json
+"""
+Здесь хранится класс с бизнес-логикой для страницы загрузки изображения
+"""
+
 import os
 
-from django.contrib.auth.models import User
-
-from img_text import settings
 from mainimg.forms import UploadFileForm
 from mainimg.models import Docs, Cart, Price, UsersToDocs
 from mainimg.service.service_as_client import send_image_to_fastapi
-from mainimg.service.variables import menu_index
 
 
 class ForUpload:

@@ -1,3 +1,7 @@
+"""
+Здесь генерируются данные, которые потом идут во views.py и используются в рендере html-страниц
+"""
+
 from mainimg.service.service_as_client import analyse_to_fastapi, get_text_to_fastapi
 from mainimg.service.service_for_upload import ForUpload
 from mainimg.service.service_full import ForIndex, ForAnalyse

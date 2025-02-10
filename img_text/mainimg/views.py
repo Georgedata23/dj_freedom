@@ -12,20 +12,31 @@ from mainimg.service.service_full import ForDelete
 
 @login_required
 def index(request):
+    """
+    Главная страница сайта, выводит все изображения из media и записи из docs
+    """
     data = for_data_index()
     return render(request, 'mainimg/index.html', context=data)
 
 @login_required
 def upload(request, id_doc):
+    """
+    Страница загрузки изображения, отправляет в fastapi id+image, сама записывает запись в БД и сохраняет image to media
+    """
     data = for_data_upload(id_doc=id_doc, request=request)
     return render(request, 'mainimg/upload.html', context=data)
 
 def upload_slug(request, id_doc_slug):
+    """
+    Тестил слаги
+    """
     return HttpResponse(status=422, content="Uncorrected id, use integer!")
 
 @login_required
 def analyse(request):
-
+    """
+    Анализ изображения в фаст апи, отправляет id и вывод изображение + описание
+    """
     if request.method == 'GET':
         return render(request, 'mainimg/analyse.html', data_analyse_get)
 
@@ -40,7 +51,9 @@ def analyse(request):
 
 @login_required
 def get_text(request):
-
+    """
+    Возвращает текст из фаст апи по айдишке
+    """
     if request.method == 'GET':
         return render(request, 'mainimg/get_text.html', data_get_text_get)
 
@@ -50,6 +63,9 @@ def get_text(request):
 
 
 class DeleteFormView(PermissionRequiredMixin, TemplateView):
+    """
+    Страница удаления документа из БД и изображения
+    """
     template_name = 'restricted_form.html'
     permission_required = 'app_name.some_permission'
     raise_exception = True
@@ -67,8 +83,14 @@ class DeleteFormView(PermissionRequiredMixin, TemplateView):
             return HttpResponse(f"<h1>Файл {id_doc}.webp не найден.</h1>")
 
 def forbidden(request, exception):
+    """
+    Уведомление, когда нет доступа к странице!!!
+    """
     return HttpResponse("<h1>вам сюда нельзя, kiss!</h1>")
 
 
 def page_not_found(request, exception):
+    """
+    При Debug=False и 404
+    """
     return redirect('home', permanent=True)

@@ -1,3 +1,6 @@
+"""
+Здесь хранятся некоторые переменные
+"""
 from random import randint
 
 
@@ -7,6 +10,6 @@ menu_index = {'analyse': "Проанализировать картинку",
               'upload': "Добавить картинку", 'id': random_id,
               'get_text': "Получить текст", 'home': "Главная страница"}
 
-FASTAPI_URL = "http://localhost:8001"
+FASTAPI_URL = "http://my_project_app:8001"
 
 

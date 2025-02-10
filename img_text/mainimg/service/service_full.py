@@ -1,3 +1,7 @@
+"""
+Здесь хранится класс с бизнес-логикой для различных страниц
+"""
+
 import os
 
 from img_text import settings

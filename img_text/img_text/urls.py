@@ -23,6 +23,7 @@ from mainimg.views import page_not_found, forbidden
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include('mainimg.urls')),
+    path('', include('core.urls'))
 ]
 
 

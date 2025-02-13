@@ -10,8 +10,8 @@ urlpatterns = [
     path('upload_doc/<int:id_doc>/', views.upload, name='upload'),
     path('upload_doc/<slug:id_doc_slug>/', views.upload_slug, name='pydantic is cool!'),
     path('analyse/', views.analyse, name='analyse'),
-    path('login/', auth_views.LoginView.as_view(template_name='mainimg/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    # path('login/', auth_views.LoginView.as_view(template_name='mainimg/login.html'), name='login'),
+    # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('delete/', views.DeleteFormView.as_view(), name='delete'),
     path('get_text/', views.get_text, name='get_text')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

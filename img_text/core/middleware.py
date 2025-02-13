@@ -18,6 +18,7 @@ class KeycloakMiddleware(MiddlewareMixin):
         print(f"Token from cookies: {token}")
 
         if token:
+
             token_data = self._introspect_token(token)
 
             if not token_data or token_data.get("active") == False:
@@ -26,12 +27,16 @@ class KeycloakMiddleware(MiddlewareMixin):
                 if new_tokens:
                     token = new_tokens["access_token"]
                     token_data = self._introspect_token(token)
-                else:
-                    request.user = AnonymousUser()
 
-        request.user = self._get_user(token_data)
+        else:
+            token_data = None
 
+        if token_data:
+            request.user = self._get_user(token_data)
+        else:
+            request.user = AnonymousUser()
         response = self.get_response(request)
+
         return response
 
  # Неавторизованный пользователь
@@ -77,7 +82,4 @@ class KeycloakMiddleware(MiddlewareMixin):
         user, created = User.objects.get_or_create(username=username, defaults={"email": email})
 
         return user
-        # username = token_data.get("username")
-        # user = User.objects.get(username=username)
-        # return user
 

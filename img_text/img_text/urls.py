@@ -21,7 +21,7 @@ from django.urls import path, include
 from mainimg.views import page_not_found, forbidden
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('', include('mainimg.urls')),
 ]
 
@@ -29,5 +29,5 @@ urlpatterns = [
 handler404 = page_not_found
 handler403 = forbidden
 
-admin.site.site_header = "Панель администрирования"
-admin.site.index_title = "Считывание текста с изображения"
+# admin.site.site_header = "Панель администрирования"
+# admin.site.index_title = "Считывание текста с изображения"

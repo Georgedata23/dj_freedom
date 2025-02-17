@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'core.middleware.KeycloakMiddleware',
+    'core.middleware.DRFMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -151,4 +151,7 @@ KEYCLOAK_PUBLIC_KEY_URL = "http://localhost:8080/realms/myrealm/protocol/openid-
 KEYCLOAK_SERVER_URL = "http://0.0.0.0:8080/"
 REALM_NAME = "for_teseract"
 CLIENT_ID = "django"
-CLIENT_SECRET = "BwnLxV7Wzpcuwv4eKQz76gfljmYigVrQ"
+CLIENT_SECRET = "CeleHApTpQpyaucqlqsJQe1t9bw0GS0x"
+
+
+DRF_URL = "http://127.0.0.1:8002"

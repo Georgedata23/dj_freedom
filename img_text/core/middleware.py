@@ -1,40 +1,48 @@
 import requests
 from django.contrib.auth.models import AnonymousUser
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 
 from img_text import settings
+from img_text.settings import DRF_URL
 
 User = get_user_model()
 
-class KeycloakMiddleware(MiddlewareMixin):
+
+class DRFMiddleware(MiddlewareMixin):
     """ Middleware для проверки JWT-токена """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
 
     def __call__(self, request):
         """ Проверяем токен из куки """
+        token_status = False
         token = request.COOKIES.get("access_token")
         print(f"Token from cookies: {token}")
 
         if token:
 
-            token_data = self._introspect_token(token)
+            token_status = self._introspect_token(token)
+            print(f"token_data_after_introspect: {token_status}")
 
-            if not token_data or token_data.get("active") == False:
+            if token_status == False:
                 new_tokens = self._refresh_token(request)
+                print(new_tokens)
 
                 if new_tokens:
-                    token = new_tokens["access_token"]
-                    token_data = self._introspect_token(token)
+                    token = new_tokens["access"]
+                    token_status = self._introspect_token(token)
 
-        else:
-            token_data = None
 
-        if token_data:
-            request.user = self._get_user(token_data)
+        if token_status == True:
+            request.user = self._get_user(token)
         else:
             request.user = AnonymousUser()
+
         response = self.get_response(request)
 
         return response
@@ -44,42 +52,36 @@ class KeycloakMiddleware(MiddlewareMixin):
 
     def _introspect_token(self, token):
         """ Проверяем валидность токена через Keycloak """
-        KEYCLOAK_INTROSPECT_URL = f"{settings.KEYCLOAK_SERVER_URL}/realms/{settings.REALM_NAME}/protocol/openid-connect/token/introspect"
+        DRF_INTROSPECT_URL = f"{DRF_URL}/api/token/verify/"
         response = requests.post(
-            KEYCLOAK_INTROSPECT_URL,
-            data={"token": token, "client_id": settings.CLIENT_ID,
-                  "client_secret": settings.CLIENT_SECRET},
+            DRF_INTROSPECT_URL,
+            data={"token": token}
         )
-        return response.json() if response.status_code == 200 else None
+        return True if response.status_code == 200 else False
 
     def _refresh_token(self, request):
         """ Обновляем токены, если access_token истек """
         refresh_token = request.COOKIES.get("refresh_token")
-        KEYCLOAK_REFRESH_URL = f"{settings.KEYCLOAK_SERVER_URL}/realms/{settings.REALM_NAME}/protocol/openid-connect/token"
+        DRF_REFRESH_URL = f"{DRF_URL}/api/token/refresh/"
         if not refresh_token:
-            return None
+            return redirect("login/")
 
-        response = requests.post(
-            KEYCLOAK_REFRESH_URL,
-            data={
-                "grant_type": "refresh_token",
-                "refresh_token": refresh_token,
-                "client_id": settings.CLIENT_ID,
-                "client_secret": settings.CLIENT_SECRET,
-            },
-        )
+        response = requests.post(DRF_REFRESH_URL,
+            data={"refresh": refresh_token})
 
         if response.status_code == 200:
             return response.json()
-        return None
+        return redirect("login/")
 
-    def _get_user(self, token_data):
+    def _get_user(self, token):
         """ Получаем или создаем пользователя """
-        user_id = token_data.get("sub")
-        email = token_data.get("email", "")
-        username = token_data.get("preferred_username", f"user_{user_id}")  # 👈 Даем fallback-username
-
-        user, created = User.objects.get_or_create(username=username, defaults={"email": email})
-
-        return user
+        USER_INFO_URL = f"{DRF_URL}/api/user/"
+        user_response = requests.get(USER_INFO_URL, headers={"Authorization": f"Bearer {token}"})
+        if user_response.status_code == 200:
+            user_data = user_response.json()
+            user_id = user_data.get("id")
+            username = user_data.get("username")
+            user = User.objects.get(username=username)
+            return user
+        return AnonymousUser()
 

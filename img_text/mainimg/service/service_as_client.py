@@ -4,10 +4,10 @@
 
 import requests
 
-from img_text.settings import MEDIA_ROOT
+from img_text.settings import MEDIA_ROOT, DRF_URL
 from mainimg.service.variables import FASTAPI_URL
 
-DRF_URL = "http://127.0.0.1:8002"
+
 def send_image_to_fastapi(id_doc):
     url = f"{DRF_URL}/api/v1/upload/"
     with open(f'{MEDIA_ROOT}/{id_doc}.webp', 'rb+') as img_file:

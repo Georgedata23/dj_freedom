@@ -3,6 +3,8 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import TemplateView
 
@@ -50,6 +52,7 @@ def analyse(request):
 
 
 @login_required
+@cache_page(60 * 5)
 def get_text(request):
     """
     Возвращает текст из фаст апи по айдишке

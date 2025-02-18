@@ -29,7 +29,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', '*']
 
 
 # Application definition
@@ -147,11 +147,22 @@ REST_FRAMEWORK = {
     ),
 }
 
-KEYCLOAK_PUBLIC_KEY_URL = "http://localhost:8080/realms/myrealm/protocol/openid-connect/certs"
-KEYCLOAK_SERVER_URL = "http://0.0.0.0:8080/"
-REALM_NAME = "for_teseract"
-CLIENT_ID = "django"
-CLIENT_SECRET = "CeleHApTpQpyaucqlqsJQe1t9bw0GS0x"
+TYPE = os.environ["TYPE"]
+
+if TYPE == "docker":
+    DRF_URL = "http://drf:8002"
+    REDIS = os.environ["REDIS"]
+else:
+    DRF_URL = "http://127.0.0.1:8002"
+    REDIS = os.environ["REDIS"]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': f'redis://{REDIS}:6379',
+        "OPTIONS": {"db": "9",
+            "pool_class": "redis.BlockingConnectionPool"},
+    }
+}
 
 
-DRF_URL = "http://127.0.0.1:8002"

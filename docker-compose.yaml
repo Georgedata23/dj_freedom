@@ -4,7 +4,7 @@ networks:
     external: true
 
 services:
-  DjangoApp:
+  djangoapp:
     container_name: django_project
     build:
       context: ./img_text
